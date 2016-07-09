@@ -36,7 +36,7 @@ public class MovementComponent : MonoBehaviour
     {
         if (Mathf.Abs(speed - target_speed) > 0.01f) 
         {
-            speed = Mathf.Lerp(speed, target_speed, timer / acceleration_time);
+            speed = Mathf.Lerp(speed, target_speed, Mathf.Min(timer / acceleration_time, 1));
         }
         timer += Time.deltaTime;
         transform.position += velocity * speed * Time.deltaTime; 

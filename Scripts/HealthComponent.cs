@@ -6,7 +6,6 @@ public class HealthComponent : MonoBehaviour {
     float curHealth = 100;
 
 	void Start () {
-	
 	}
 
     public void Heal(float val)
@@ -22,7 +21,7 @@ public class HealthComponent : MonoBehaviour {
     {
         curHealth -= val;
         if (curHealth <= 0) {
-            Destroy(gameObject);
+            curHealth = 0;
         }
 
     }

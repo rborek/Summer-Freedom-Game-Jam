@@ -1,21 +1,34 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PathComponent : MonoBehaviour {
+public class PathComponent : MonoBehaviour
+{
     ParticleSystem particles;
     ParticleSystem.EmitParams emitParams;
     float timer;
-    void Start () {
+    float dps = 2;
+    void Start()
+    {
         particles = gameObject.AddComponent<ParticleSystem>();
         timer = 0;
         particles.Stop();
     }
 
-    void Update () {
+    void Update()
+    {
         Collider[] hit = Physics.OverlapBox(transform.position,
-            new Vector3(0.5f,1.0f,0.5f));
-        for (int i = 0; i < hit.Length; ++i) { 
-        
+            new Vector3(0.5f, 1.0f, 0.5f));
+        for (int i = 0; i < hit.Length; ++i)
+        {
+            HealthComponent health = hit[i].gameObject.GetComponent<HealthComponent>();
+            if (health != null)
+            {
+                health.Damage(dps * Time.deltaTime);
+            }
+        }
+        for (int i = 0; i < hit.Length; ++i)
+        {
+
             if (hit[i].gameObject.GetComponent<MovementComponent>() != null)
             {
                 emitParams.velocity = new Vector3(0, 5, 0);
@@ -29,5 +42,5 @@ public class PathComponent : MonoBehaviour {
                 return;
             }
         }
-	}
+    }
 }
