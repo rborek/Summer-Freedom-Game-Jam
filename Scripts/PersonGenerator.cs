@@ -22,7 +22,7 @@ public class PersonGenerator : MonoBehaviour {
             if (timeToSpawnNext <= 0)
             {
                 GameObject toSpawn = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                toSpawn.AddComponent<TurningScript>();
+                toSpawn.AddComponent<MovementComponent>();
                 toSpawn.AddComponent<HealthComponent>();
                 toSpawn.transform.position = spawnPos;
                 people.Add(toSpawn);

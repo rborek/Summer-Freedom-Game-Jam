@@ -16,7 +16,7 @@ public class PathComponent : MonoBehaviour {
             new Vector3(0.5f,1.0f,0.5f));
         for (int i = 0; i < hit.Length; ++i) { 
         
-            if (hit[i].gameObject.GetComponent<TurningScript>() != null)
+            if (hit[i].gameObject.GetComponent<MovementComponent>() != null)
             {
                 emitParams.velocity = new Vector3(0, 5, 0);
                 emitParams.rotation = 0;

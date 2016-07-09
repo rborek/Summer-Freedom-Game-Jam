@@ -20,12 +20,12 @@ public class CornerPath : MonoBehaviour
         Collider[] collisions = Physics.OverlapBox(transform.position, bounds);
         for (int i = 0; i < collisions.Length; ++i)
         {
-            if (collisions[i].gameObject.GetComponent<TurningScript>() != null)
+            if (collisions[i].gameObject.GetComponent<MovementComponent>() != null)
             {
                 GameObject toTurn = collisions[i].gameObject;
                 if (!alreadyTurned.Contains(toTurn.GetInstanceID()))
                 {
-                    TurningScript script = toTurn.GetComponent<TurningScript>();
+                    MovementComponent script = toTurn.GetComponent<MovementComponent>();
                     script.StartTurning(turnDir);
                     alreadyTurned.Add(toTurn.GetInstanceID());
                 }
