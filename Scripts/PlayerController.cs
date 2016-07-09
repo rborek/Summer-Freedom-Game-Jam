@@ -4,32 +4,34 @@ using System.Collections;
 public class PlayerController : MonoBehaviour {
     private Transform playerLocation;
     public static int playerSpeed = 50;
+    public int onSpeed = 10;
+    public int maxRange = 60;
+    public Transform selectedTileTransform; 
     Ray ray;
     RaycastHit hit;
     GameObject highlight;
-    MeshRenderer hlRenderer;
+    Light hLight;
 	// Use this for initialization
 	void Start () {
         playerLocation = transform;
         highlight = GameObject.Find("highlight");
-        hlRenderer = highlight.GetComponent<MeshRenderer>();
+        hLight = highlight.GetComponent<Light>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         movePlayer();
+        selectedTileTransform = hit.transform;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        Debug.Log(ray.direction);
-        Debug.DrawRay(transform.position, ray.direction, Color.red);
         if (Physics.Raycast(ray, out hit))
         {
             highlight.transform.position = hit.transform.position;
-            hlRenderer.enabled = true;
-            highlight.GetComponent<Renderer>().material.color = Color.red;
+            if(hLight.range < maxRange)
+                hLight.range += onSpeed;
         }
         else
         {
-            hlRenderer.enabled = false;
+            hLight.range = 0;
         }
 	}
 
