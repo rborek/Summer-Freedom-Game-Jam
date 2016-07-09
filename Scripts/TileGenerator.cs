@@ -34,6 +34,7 @@ public class TileGenerator : MonoBehaviour
         int timeToTurn = 3;
         while (zPos < gridHeight)
         {
+            bool spawned = false;
             Vector3 startCycleDir = moveDir;
             Vector3 initMoveDir;
             if (tiles[zPos, xPos] == null)
@@ -63,6 +64,7 @@ public class TileGenerator : MonoBehaviour
                     moveDir.z = 1;
                     moveDir.x = 0;
                     CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
+                    spawned = true;
                 }
             }
             int startX = xPos;
@@ -84,12 +86,12 @@ public class TileGenerator : MonoBehaviour
                 moveDir = new Vector3(0, 0, 1);
                 CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
             }
-            else if (!moveDir.Equals(startCycleDir)) {
+            else if (!moveDir.Equals(startCycleDir) && !spawned) {
                 GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 corner.AddComponent<CornerPath>();
                 corner.GetComponent<CornerPath>().turnDir = moveDir;
                 corner.GetComponent<Renderer>().material.color = Color.blue;
-                corner.transform.position = new Vector3(startX, gridY + 1, startZ + moveDir.z);
+                corner.transform.position = new Vector3(startX, gridY + 1, startZ + 1);
                 corners.Add(corner);
             }
 
@@ -102,7 +104,7 @@ public class TileGenerator : MonoBehaviour
             {
                 if (tiles[i, j] == null)
                 {
-                    tiles[i,j] = (GameObject)Instantiate(tile, new Vector3(i, gridY, j), Quaternion.identity);
+                    tiles[i,j] = (GameObject)Instantiate(tile, new Vector3(j, gridY, i), Quaternion.identity);
                     tiles[i, j].transform.localScale = new Vector3(1,1,1);
                 }
             }
