@@ -7,6 +7,7 @@ public class TileGenerator : MonoBehaviour
     public int gridWidth;
     public int gridHeight;
     private int startXPos;
+    public GameObject tile;
     public int gridY = 1;
     GameObject[,] tiles;
     ArrayList corners;
@@ -33,6 +34,7 @@ public class TileGenerator : MonoBehaviour
         int timeToTurn = 3;
         while (zPos < gridHeight)
         {
+            Vector3 startCycleDir = moveDir;
             Vector3 initMoveDir;
             if (tiles[zPos, xPos] == null)
             {
@@ -53,12 +55,7 @@ public class TileGenerator : MonoBehaviour
                     {
                         moveDir = new Vector3(-1, 0, 0);
                     }
-                    GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    corner.AddComponent<CornerPath>();
-                    corner.GetComponent<CornerPath>().turnDir = moveDir;
-                    corner.GetComponent<Renderer>().material.color = Color.blue;
-                    corner.transform.position = new Vector3(xPos, gridY + 1, zPos + 1);
-                    corners.Add(corner);
+                    
                 }
                 else if (Random.value > 0.4)
                 {
@@ -68,13 +65,14 @@ public class TileGenerator : MonoBehaviour
                     CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
                 }
             }
-
+            int startX = xPos;
+            int startZ = zPos;
             initMoveDir = moveDir;
             zPos += (int)(Mathf.Round(moveDir.z));
             xPos += (int)(Mathf.Round(moveDir.x));
             if (xPos >= gridWidth)
             {
-                
+
                 xPos = gridWidth - 1;
                 moveDir = new Vector3(0, 0, 1);
                 CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
@@ -86,7 +84,29 @@ public class TileGenerator : MonoBehaviour
                 moveDir = new Vector3(0, 0, 1);
                 CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
             }
+            else if (!moveDir.Equals(startCycleDir)) {
+                GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                corner.AddComponent<CornerPath>();
+                corner.GetComponent<CornerPath>().turnDir = moveDir;
+                corner.GetComponent<Renderer>().material.color = Color.blue;
+                corner.transform.position = new Vector3(startX, gridY + 1, startZ + moveDir.z);
+                corners.Add(corner);
+            }
+
             timeToTurn--;
+        }
+
+        for (int i = 0; i < gridHeight; ++i)
+        {
+            for (int j = 0; j < gridWidth; ++j)
+            {
+                if (tiles[i, j] == null)
+                {
+                    tiles[i,j] = (GameObject)Instantiate(tile, new Vector3(i, gridY, j), Quaternion.identity);
+                    tiles[i, j].transform.localScale = new Vector3(1,1,1);
+                }
+            }
+
         }
 
     }
