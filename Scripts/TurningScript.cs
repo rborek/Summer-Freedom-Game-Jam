@@ -12,8 +12,6 @@ public class TurningScript : MonoBehaviour
     void Start()
     {
         turning = false;
-        GameObject tileGen = GameObject.Find("TileGenerator");
-        transform.position = new Vector3(tileGen.GetComponent<TileGenerator>().StartX(), 2, 0);
         velocity = new Vector3(0, 0, 3.5f);
     }
 

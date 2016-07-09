@@ -6,12 +6,11 @@ public class TileGenerator : MonoBehaviour
 
     public int gridWidth;
     public int gridHeight;
-    private int startXPos;
+    private Vector3 startPos;
     public GameObject tile;
     public int gridY = 1;
     GameObject[,] tiles;
     ArrayList corners;
-
     void Start()
     {
         tiles = new GameObject[gridHeight, gridWidth];
@@ -19,17 +18,17 @@ public class TileGenerator : MonoBehaviour
         GenerateMap();
     }
 
-    public int StartX()
+    public Vector3 StartPos()
     {
-        return startXPos;
+        return startPos;
     }
 
     public void GenerateMap()
     {
         Vector3 moveDir;
         int xPos = (int)(Random.value * gridWidth);
-        startXPos = xPos;
         int zPos = 0;
+        startPos = new Vector3(xPos, gridY + 1, zPos);
         moveDir = new Vector3(0, 0, 1);
         int timeToTurn = 3;
         while (zPos < gridHeight)
@@ -43,10 +42,11 @@ public class TileGenerator : MonoBehaviour
                 GameObject tile = tiles[zPos, xPos];
                 tile.transform.position = new Vector3(xPos, gridY, zPos);
                 tile.GetComponent<Renderer>().material.color = Color.red;
+                tile.AddComponent<PathComponent>();
             }
-            if (Random.value > 0.3f && timeToTurn <= 0)
+            if (Random.value > 0.1f && timeToTurn <= 0)
             {
-                timeToTurn = 3;
+                timeToTurn = (int)Mathf.Round(Random.value * 5) + 1;
                 if (moveDir.z == 1 && Random.value > 0.5)
                 {
                     if (Random.value > 0.5)
@@ -119,6 +119,7 @@ public class TileGenerator : MonoBehaviour
         corner.GetComponent<CornerPath>().turnDir = moveDir;
         corner.GetComponent<Renderer>().material.color = Color.blue;
         corner.transform.position = new Vector3(xPos + initMoveDir.x, gridY + 1, zPos);
+       
         corners.Add(corner);
     }
 

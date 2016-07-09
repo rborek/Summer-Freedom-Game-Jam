@@ -9,6 +9,7 @@ public class CornerPath : MonoBehaviour
     void Start()
     {
         alreadyTurned = new ArrayList();
+      
         //GetComponent<MeshRenderer>().enabled = false;
     }
 
