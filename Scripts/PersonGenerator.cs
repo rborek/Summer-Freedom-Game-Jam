@@ -5,8 +5,9 @@ public class PersonGenerator : MonoBehaviour {
     ArrayList people;
     GameObject tileGenerator;
     Vector3 spawnPos;
+    float startSpeed = 2.5f;
     float timeToSpawnNext = 1;
-    float spawnFreq = 1;
+    bool running = true;
 	void Start () {
         people = new ArrayList();
         tileGenerator = GameObject.Find("TileGenerator");
@@ -14,18 +15,32 @@ public class PersonGenerator : MonoBehaviour {
 	}
 	
 	void Update () {
-        spawnPos = tileGenerator.GetComponent<TileGenerator>().StartPos();
-        timeToSpawnNext -= Time.deltaTime;
-        if (timeToSpawnNext <= 0)
+        if (running)
         {
-            GameObject toSpawn = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            toSpawn.AddComponent<TurningScript>();
-            toSpawn.transform.position = spawnPos;
-            Debug.Log(spawnPos);
-            people.Add(toSpawn);
-            timeToSpawnNext += Random.value * 2 + 0.5f;
+            spawnPos = tileGenerator.GetComponent<TileGenerator>().StartPos();
+            timeToSpawnNext -= Time.deltaTime;
+            if (timeToSpawnNext <= 0)
+            {
+                GameObject toSpawn = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                toSpawn.AddComponent<TurningScript>();
+                toSpawn.AddComponent<HealthComponent>();
+                toSpawn.transform.position = spawnPos;
+                people.Add(toSpawn);
+                timeToSpawnNext += Random.value * 2 + 0.5f;
+            }
         }
 	}
+
+    public void StartGenerating()
+    {
+        running = true;
+        timeToSpawnNext = 1;
+    }
+
+    public void StopGenerating()
+    {
+        running = false;
+    }
 
     public ArrayList GetPeople()
     {

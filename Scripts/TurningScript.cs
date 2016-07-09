@@ -12,7 +12,7 @@ public class TurningScript : MonoBehaviour
     void Start()
     {
         turning = false;
-        velocity = new Vector3(0, 0, 3.5f);
+        velocity = new Vector3(0, 0, 2.5f);
     }
 
     // Update is called once per frame
@@ -21,7 +21,7 @@ public class TurningScript : MonoBehaviour
         transform.position += velocity * Time.deltaTime;
         if (turning)
         {
-            lerpTime -= Time.deltaTime * 4;
+            lerpTime -= Time.deltaTime * 3;
             velocity = Vector3.Lerp(turnDir, startDir, lerpTime);
             if (lerpTime <= 0)
             {

@@ -22,7 +22,8 @@ public class PathComponent : MonoBehaviour {
                 emitParams.rotation = 0;
                 emitParams.startColor = Color.black;
                 emitParams.startLifetime = 1;
-                emitParams.startSize = 0.5f;
+                emitParams.startSize = 0.3f;
+                emitParams.angularVelocity = 0;
                 particles.Emit(emitParams, 1);
                 timer = 1;
                 return;

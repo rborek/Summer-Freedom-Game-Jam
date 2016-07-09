@@ -9,8 +9,8 @@ public class CornerPath : MonoBehaviour
     void Start()
     {
         alreadyTurned = new ArrayList();
-      
-        //GetComponent<MeshRenderer>().enabled = false;
+
+        GetComponent<MeshRenderer>().enabled = false;
     }
 
     // Update is called once per frame

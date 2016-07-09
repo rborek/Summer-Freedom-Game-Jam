@@ -46,8 +46,8 @@ public class TileGenerator : MonoBehaviour
             }
             if (Random.value > 0.1f && timeToTurn <= 0)
             {
-                timeToTurn = (int)Mathf.Round(Random.value * 5) + 1;
-                if (moveDir.z == 1 && Random.value > 0.5)
+                timeToTurn = (int)Mathf.Round(Random.value * 5) + 2;
+                if (moveDir.z == 1 && Random.value > 0.2)
                 {
                     if (Random.value > 0.5)
                     {
