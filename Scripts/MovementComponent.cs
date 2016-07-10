@@ -12,6 +12,8 @@ public class MovementComponent : MonoBehaviour
     float start_speed;
     float target_speed = 1;
     float lerpTime;
+    Quaternion turnQuat;
+    Quaternion startQuat;
     int lastBoostingTower;
     bool turning;
     // Use this for initialization
@@ -50,6 +52,7 @@ public class MovementComponent : MonoBehaviour
         if (turning)
         {
             lerpTime -= Time.deltaTime * 3 * speed;
+            transform.rotation = Quaternion.Lerp(startQuat, turnQuat, lerpTime);
             velocity = Vector3.Lerp(turnDir, startDir, lerpTime);
             if (lerpTime <= 0)
             {
@@ -61,6 +64,8 @@ public class MovementComponent : MonoBehaviour
     public void StartTurning(Vector3 turnDir)
     {
         this.turnDir = turnDir.normalized * velocity.magnitude;
+        startQuat = Quaternion.LookRotation(velocity.normalized);
+        turnQuat = Quaternion.LookRotation(turnDir);
         startDir = velocity;
         turning = true;
         lerpTime = 1;
