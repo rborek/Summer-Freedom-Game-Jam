@@ -12,6 +12,7 @@ public class MovementComponent : MonoBehaviour
     float start_speed;
     float target_speed = 1;
     float lerpTime;
+    int lastBoostingTower;
     bool turning;
     // Use this for initialization
     void Start()
@@ -20,18 +21,22 @@ public class MovementComponent : MonoBehaviour
         velocity = new Vector3(0, 0, 2.5f);
     }
 
-    public void SetTargetSpeed(float val, float time ) {
+    public void SetTargetSpeed(float val, float time, int towerID ) {
+        lastBoostingTower = towerID;
         timer = 0;
         start_speed = speed;
         target_speed = val;
         acceleration_time = time;
     }
 
-    public void ResetSpeed() {
-        timer = 0;
-        start_speed = speed;
-        target_speed = 1;
-        acceleration_time = 1;
+    public void ResetSpeed(int towerID) {
+        if (towerID == lastBoostingTower)
+        {
+            timer = 0;
+            start_speed = speed;
+            target_speed = 1;
+            acceleration_time = 1;
+        }
     }
 
     void Update()

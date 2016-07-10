@@ -16,7 +16,7 @@ public class SpeedBoostTower : MonoBehaviour
     {
         gameObject.AddComponent<SphereCollider>().isTrigger = true;
         gameObject.GetComponent<SphereCollider>().radius = radius;
-
+        gameObject.AddComponent<Rigidbody>().isKinematic = true;
     }
 
     // Update is called once per frame
@@ -29,7 +29,7 @@ public class SpeedBoostTower : MonoBehaviour
         if(movement != null)
         {
             Debug.Log("working");
-            movement.SetTargetSpeed(boost, timeLast);
+            movement.SetTargetSpeed(boost, timeLast, gameObject.GetInstanceID());
         }
     }
 
@@ -38,7 +38,7 @@ public class SpeedBoostTower : MonoBehaviour
         MovementComponent movement = other.gameObject.GetComponent<MovementComponent>();
         if (movement != null)
         {
-            movement.ResetSpeed();
+            movement.ResetSpeed(gameObject.GetInstanceID());
         }
     }
     void Upgrade()
