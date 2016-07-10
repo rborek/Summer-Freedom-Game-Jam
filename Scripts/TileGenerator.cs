@@ -16,12 +16,46 @@ public class TileGenerator : MonoBehaviour
     {
         tiles = new GameObject[gridHeight, gridWidth];
         corners = new ArrayList();
-        GenerateMap();
+        GenerateStaticMap();
     }
 
     public Vector3 StartPos()
     {
         return startPos;
+    }
+
+    public void CreatePath(int zPos, int xPos)
+    {
+        tiles[zPos, xPos] = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        GameObject tile = tiles[zPos, xPos];
+        tile.transform.position = new Vector3(xPos, gridY, zPos);
+        tile.GetComponent<Renderer>().enabled = false;
+        tile.AddComponent<PathComponent>();
+    }
+
+    public void GenerateStaticMap()
+    {
+        // choose start pos
+        int xPos = 0;
+        int zPos = 0;
+        startPos = new Vector3(xPos, gridY + 1, zPos);
+
+        // create static path here using CreatePath
+
+        for (int i = 0; i < gridHeight; ++i)
+        {
+            for (int j = 0; j < gridWidth; ++j)
+            {
+                if (tiles[i, j] == null)
+                {
+                    tiles[i, j] = (GameObject)Instantiate(tile, new Vector3(j, gridY, i), Quaternion.identity);
+                    tiles[i, j].transform.localScale = new Vector3(1, 1, 1);
+                    tiles[i, j].AddComponent<TileComponent>();
+                    tiles[i, j].layer = 8;
+                }
+            }
+
+        }
     }
 
     public void GenerateMap()
