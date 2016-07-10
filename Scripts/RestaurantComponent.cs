@@ -2,11 +2,12 @@
 using System.Collections;
 
 public class RestaurantComponent : MonoBehaviour {
-    GameObject gameManager;
+    GameManager gameManager;
 
 	void Start () {
         gameObject.AddComponent<Rigidbody>().isKinematic = true;
         gameObject.AddComponent<BoxCollider>().isTrigger = true;
+        gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
 	}
 
     void OnTriggerEnter(Collider other)
@@ -14,10 +15,11 @@ public class RestaurantComponent : MonoBehaviour {
         GameObject collided = other.gameObject;
         HealthComponent health = collided.GetComponent<HealthComponent>();
         if (health != null)
-        {
-            if (Random.value < health.Health())
+        { 
+        
+            if (health.Health() >= 50)
             {
-                // add money
+                gameManager.addMoney((int)health.Health());
 
             }
             Destroy(collided);

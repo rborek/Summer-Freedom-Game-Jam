@@ -8,6 +8,11 @@ public class HealthComponent : MonoBehaviour {
 	void Start () {
 	}
 
+    public float Health()
+    {
+        return curHealth;
+    }
+
     public void Heal(float val)
     {
         curHealth += val;

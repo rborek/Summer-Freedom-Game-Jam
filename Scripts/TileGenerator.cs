@@ -53,13 +53,14 @@ public class TileGenerator : MonoBehaviour
                     if (Random.value > 0.5)
                     {
                         moveDir = new Vector3(1, 0, 0);
-                    } else
+                    }
+                    else
                     {
                         moveDir = new Vector3(-1, 0, 0);
                     }
-                    
+
                 }
-                else if (Random.value > 0.4)
+                else if (Random.value > 0.65)
                 {
                     initMoveDir = moveDir;
                     moveDir.z = 1;
@@ -87,7 +88,8 @@ public class TileGenerator : MonoBehaviour
                 moveDir = new Vector3(0, 0, 1);
                 CreateForwardCorner(xPos, zPos, moveDir, initMoveDir);
             }
-            else if (!moveDir.Equals(startCycleDir) && !spawned) {
+            else if (!moveDir.Equals(startCycleDir) && !spawned)
+            {
                 GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 corner.AddComponent<CornerPath>();
                 corner.GetComponent<CornerPath>().turnDir = moveDir;
@@ -105,8 +107,8 @@ public class TileGenerator : MonoBehaviour
             {
                 if (tiles[i, j] == null)
                 {
-                    tiles[i,j] = (GameObject)Instantiate(tile, new Vector3(j, gridY, i), Quaternion.identity);
-                    tiles[i, j].transform.localScale = new Vector3(1,1,1);
+                    tiles[i, j] = (GameObject)Instantiate(tile, new Vector3(j, gridY, i), Quaternion.identity);
+                    tiles[i, j].transform.localScale = new Vector3(1, 1, 1);
                     tiles[i, j].AddComponent<TileComponent>();
                     tiles[i, j].layer = 8;
                 }
@@ -116,18 +118,19 @@ public class TileGenerator : MonoBehaviour
 
         GameObject restaurant = GameObject.CreatePrimitive(PrimitiveType.Cube);
         restaurant.AddComponent<RestaurantComponent>();
-        restaurant.transform.position = new Vector3(xPos, gridY + 2 , zPos + 1.5f);
+        restaurant.transform.position = new Vector3(xPos, gridY + 2, zPos + 1.5f);
         restaurant.transform.localScale = new Vector3(4, 4, 4);
     }
 
 
-    private void CreateForwardCorner(int xPos, int zPos, Vector3 moveDir, Vector3 initMoveDir) {
+    private void CreateForwardCorner(int xPos, int zPos, Vector3 moveDir, Vector3 initMoveDir)
+    {
         GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
         corner.AddComponent<CornerPath>();
         corner.GetComponent<CornerPath>().turnDir = moveDir;
         corner.GetComponent<Renderer>().material.color = Color.blue;
         corner.transform.position = new Vector3(xPos + initMoveDir.x, gridY + 1, zPos);
-       
+
         corners.Add(corner);
     }
 
@@ -135,14 +138,9 @@ public class TileGenerator : MonoBehaviour
 
     private bool CanGoX(int xPos, ref Vector3 moveDir)
     {
-    
+
         return true;
     }
 
 
-
-    void Update()
-    {
-
-    }
 }
