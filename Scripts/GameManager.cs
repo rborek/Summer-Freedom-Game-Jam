@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour {
     GameObject player;
@@ -9,9 +10,10 @@ public class GameManager : MonoBehaviour {
     public GameObject tower1;
     public GameObject tower2;
     public GameObject tower3;
-    public int startingFunds = 500;
+    public Text towerText;
+    public const int startingFunds = 500;
     private int curTower = 0;
-    private static int money = startingFunds;
+    private static int money = startingFunds ;
     // Use this for initialization
     void Start () {
         player = GameObject.Find("player");
@@ -20,7 +22,7 @@ public class GameManager : MonoBehaviour {
         towerList[0] = tower1;
         towerList[1] = tower2;
         towerList[2] = tower3;
-
+        towerText.text = "Selected Tower: " + towerList[0].name;
 
         selectedTower = towerList[0];
 	}
@@ -48,7 +50,14 @@ public class GameManager : MonoBehaviour {
     void changeTower()
     {
         curTower++;
-        selectedTower = towerList[curTower];
+        if(curTower < towerList.Length)
+            selectedTower = towerList[curTower];
+        else
+        {
+            curTower = 0;
+            selectedTower = towerList[curTower];
+        }
+        towerText.text = "Selected Tower: " + selectedTower.name;
     }
 
     public int getMoney()
