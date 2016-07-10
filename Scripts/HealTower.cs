@@ -9,6 +9,7 @@ public class HealTower : MonoBehaviour
     int radius = 100;
     int level = 0;
     public int cost = 100;
+    public static int upgradeCost = 50;
     public List<HealthComponent> beingHealed = new List<HealthComponent>();
     void Start()
     {
@@ -46,7 +47,7 @@ public class HealTower : MonoBehaviour
         }
     }
 
-    void Upgrade()
+    public void Upgrade()
     {
         power += 2;
         level += 1;

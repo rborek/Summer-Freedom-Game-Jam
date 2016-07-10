@@ -10,6 +10,7 @@ public class SpeedBoostTower : MonoBehaviour
     int radius = 5;
     int level = 0;
     public int cost = 100;
+    public static int upgradeCost = 50;
     public Collider[] collisions;
     public ArrayList boosted = new ArrayList();
     void Start()
@@ -41,7 +42,7 @@ public class SpeedBoostTower : MonoBehaviour
             movement.ResetSpeed(gameObject.GetInstanceID());
         }
     }
-    void Upgrade()
+    public void Upgrade()
     {
         boost += 0.5f;
         level += 1;
