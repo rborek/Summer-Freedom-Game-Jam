@@ -42,4 +42,9 @@ public class SpeedBoostTower : MonoBehaviour
             movement.ResetSpeed();
         }
     }
+    void Upgrade()
+    {
+        boost += 0.5f;
+        level += 1;
+    }
 }

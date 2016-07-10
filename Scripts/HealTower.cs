@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class HealTower : MonoBehaviour
 {
@@ -8,28 +9,46 @@ public class HealTower : MonoBehaviour
     int radius = 100;
     int level = 0;
     public int cost = 100;
+    public List<HealthComponent> beingHealed = new List<HealthComponent>();
     void Start()
     {
-
+        gameObject.AddComponent<SphereCollider>().isTrigger = true;
+        gameObject.GetComponent<SphereCollider>().radius = radius;
+        gameObject.AddComponent<Rigidbody>().isKinematic = true;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Collider[] collisions = Physics.OverlapSphere(transform.position, radius);
-        for (int i = 0; i < collisions.Length; i++)
+        for(int k= 0; k < beingHealed.Count; k++)
         {
-            HealthComponent health = collisions[i].gameObject.GetComponent<HealthComponent>();
-            if (health != null)
-            {
-                health.Heal(power * Time.deltaTime);
-            }
+            beingHealed[k].Heal(power * Time.deltaTime);
         }
-
     }
 
-    public void upgrade()
+    void OnTriggerEnter(Collider other)
     {
 
+        HealthComponent health = other.gameObject.GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            Debug.Log("working");
+            beingHealed.Add(other.gameObject.GetComponent<HealthComponent>());
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        HealthComponent health = other.gameObject.GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            beingHealed.Remove(other.gameObject.GetComponent<HealthComponent>());
+        }
+    }
+
+    void Upgrade()
+    {
+        power += 2;
+        level += 1;
     }
 }
