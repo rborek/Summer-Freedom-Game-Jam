@@ -9,10 +9,15 @@ public class GameManager : MonoBehaviour {
     GameObject[] towerList = new GameObject[2];
     public GameObject tower1;
     public GameObject tower2;
-    
+    int dayNum = 1;
+    float dayTime = 0;
+    public const int dayDuration = 60;
+    public const int towerUpkeepCost = 10;
+    public int upkeepCost = 100;
     public int gridWidth = 50;
     public int gridHeight = 50;
     public int towerCost = 100;
+    int numTowers = 0;
     public Text towerText;
     public Text balance;
     public GameObject[,] towers;
@@ -31,10 +36,23 @@ public class GameManager : MonoBehaviour {
         towerText.text = "Selected Tower: " + towerList[0].name;
         selectedTower = towerList[0];
 	}
+
+    void PassTime()
+    {
+        dayTime += Time.deltaTime;
+        if (dayTime >= dayDuration)
+        {
+            dayTime -= dayDuration;
+            money -= upkeepCost + towerUpkeepCost * numTowers;
+            upkeepCost += 25; 
+            dayNum++;
+        }
+
+    }
 	
 	// Update is called once per frame
 	void Update () {
-        
+        PassTime();
         if (Input.GetMouseButtonDown(0) && PC.selectedTileTransform.GetComponent<TileComponent>() != null) // right click
         {
             if (money >= towerCost)
@@ -49,16 +67,17 @@ public class GameManager : MonoBehaviour {
         else if (Input.GetMouseButtonDown(1)
                 && towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null)
         {
-                Debug.Log("ssf");
-                int x = (int)PC.selectedTileTransform.position.z;
-                int y = (int)PC.selectedTileTransform.position.x;
-                GameObject tower = towers[x, y];
-                Destroy(tower);
-                towers[x, y] = null;
-                addMoney(towerCost / 2);
-       }
+            Debug.Log("ssf");
+            int x = (int)PC.selectedTileTransform.position.z;
+            int y = (int)PC.selectedTileTransform.position.x;
+            GameObject tower = towers[x, y];
+            numTowers--;
+            Destroy(tower);
+            towers[x, y] = null;
+            addMoney(towerCost / 2);
+        }
 
-        if (towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null 
+        if (towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null
             && Input.GetKeyDown(KeyCode.Space))
         {
             
@@ -95,6 +114,7 @@ public class GameManager : MonoBehaviour {
         int z = (int)PC.selectedTileTransform.position.z;
         if (towers[z, x] == null)
         {
+            numTowers++;
             addMoney(-towerCost);
             balance.text = "Balance: " + money;
             towers[z, x] = (GameObject)Instantiate(selectedTower,
