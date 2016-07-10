@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using System.Collections.Generic;
 using System.Collections;
 
 public class PathComponent : MonoBehaviour
 {
     ParticleSystem particles;
     ParticleSystem.EmitParams emitParams;
+    List<HealthComponent> damaging;
     float timer;
     float dps = 2;
     void Start()
@@ -26,16 +28,29 @@ public class PathComponent : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.position.y > gameObject.transform.position.y)
+        HealthComponent health = other.gameObject.GetComponent<HealthComponent>();
+        if (health != null)
         {
-        particles.Emit(emitParams, 10);
+            particles.Emit(emitParams, 10);
+            damaging.Add(health);
+        }
+    }
 
+    void OnTriggerExit(Collider other)
+    {
+        HealthComponent health = other.gameObject.GetComponent<HealthComponent>();
+        if (health != null)
+        {
+            damaging.Remove(health);
         }
     }
 
 
-
     void Update()
     {
+        for (int i = 0; i < damaging.Count; ++i)
+        {
+            damaging[i].Damage(dps * Time.deltaTime);
+        }
     }
 }
