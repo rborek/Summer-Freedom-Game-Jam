@@ -5,32 +5,33 @@ public class CornerPath : MonoBehaviour
 {
     public Vector3 turnDir;
     ArrayList alreadyTurned;
+    BoxCollider box;
     // Use this for initialization
     void Start()
     {
         alreadyTurned = new ArrayList();
-
+        box = gameObject.AddComponent<BoxCollider>();
+        gameObject.AddComponent<Rigidbody>().isKinematic = true;
+        box.isTrigger = true;
+        box.size = new Vector3(2f, 2f, 2f);
         GetComponent<MeshRenderer>().enabled = false;
     }
+
+    void OnTriggerEnter(Collider other)
+    {
+        GameObject toTurn = other.gameObject;
+        MovementComponent move = toTurn.GetComponent<MovementComponent>();
+        if (move != null && !alreadyTurned.Contains(toTurn.GetInstanceID()))
+        {
+            move.StartTurning(turnDir);
+            alreadyTurned.Add(toTurn.GetInstanceID());
+        }
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 bounds = new Vector3(1f, 1f, 1f);
-        Collider[] collisions = Physics.OverlapBox(transform.position, bounds);
-        for (int i = 0; i < collisions.Length; ++i)
-        {
-            if (collisions[i].gameObject.GetComponent<MovementComponent>() != null)
-            {
-                GameObject toTurn = collisions[i].gameObject;
-                if (!alreadyTurned.Contains(toTurn.GetInstanceID()))
-                {
-                    MovementComponent script = toTurn.GetComponent<MovementComponent>();
-                    script.StartTurning(turnDir);
-                    alreadyTurned.Add(toTurn.GetInstanceID());
-                }
-            }
-        }
 
 
     }

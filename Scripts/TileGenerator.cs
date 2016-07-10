@@ -8,6 +8,7 @@ public class TileGenerator : MonoBehaviour
     public int gridHeight;
     private Vector3 startPos;
     public GameObject tile;
+    GameObject restaurant;
     public int gridY = 1;
     GameObject[,] tiles;
     ArrayList corners;
@@ -113,7 +114,12 @@ public class TileGenerator : MonoBehaviour
 
         }
 
+        GameObject restaurant = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        restaurant.AddComponent<RestaurantComponent>();
+        restaurant.transform.position = new Vector3(xPos, gridY + 2 , zPos + 1.5f);
+        restaurant.transform.localScale = new Vector3(4, 4, 4);
     }
+
 
     private void CreateForwardCorner(int xPos, int zPos, Vector3 moveDir, Vector3 initMoveDir) {
         GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);

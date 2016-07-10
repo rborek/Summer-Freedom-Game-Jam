@@ -16,7 +16,6 @@ public class SpeedBoostTower : MonoBehaviour
     {
         gameObject.AddComponent<SphereCollider>().isTrigger = true;
         gameObject.GetComponent<SphereCollider>().radius = radius;
-        gameObject.AddComponent<Rigidbody>().isKinematic = true;
 
     }
 
