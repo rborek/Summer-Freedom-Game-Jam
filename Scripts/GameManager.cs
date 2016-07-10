@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
     public GameObject tower1;
     public GameObject tower2;
     public GameObject tower3;
+    public int startingFunds = 500;
     private int curTower = 0;
+    private static int money = startingFunds;
     // Use this for initialization
     void Start () {
         player = GameObject.Find("player");
@@ -26,7 +28,7 @@ public class GameManager : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         
-        if (Input.GetMouseButtonDown(0) && PC.selectedTileTransform != null) // right click
+        if (Input.GetMouseButtonDown(0) && PC.selectedTileTransform.GetComponent<TileComponent>() != null) // right click
         {
             spawnTower();
         }
@@ -47,6 +49,21 @@ public class GameManager : MonoBehaviour {
     {
         curTower++;
         selectedTower = towerList[curTower];
+    }
+
+    public int getMoney()
+    {
+        return money;
+    }
+
+    public void addMoney(int a)
+    {
+        money += a;
+    }
+
+    public void subMoney(int a)
+    {
+        money -= a;
     }
 
   
