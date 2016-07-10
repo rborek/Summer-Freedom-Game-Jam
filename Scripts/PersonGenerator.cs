@@ -24,9 +24,11 @@ public class PersonGenerator : MonoBehaviour {
                 GameObject toSpawn = GameObject.CreatePrimitive(PrimitiveType.Cube);
                 toSpawn.AddComponent<MovementComponent>();
                 toSpawn.AddComponent<HealthComponent>();
+                toSpawn.AddComponent<BoxCollider>();
+                //toSpawn.AddComponent<Rigidbody>().isKinematic = true;
                 toSpawn.transform.position = spawnPos;
                 people.Add(toSpawn);
-                timeToSpawnNext += Random.value * 2 + 0.5f;
+                timeToSpawnNext += Random.value * 2 + 10.5f;
             }
         }
 	}

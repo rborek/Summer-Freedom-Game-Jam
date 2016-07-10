@@ -54,7 +54,7 @@ public class PlayerController : MonoBehaviour {
     {
         selectedTileTransform = hit.transform;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        if (Physics.Raycast(ray, out hit))
+        if (Physics.Raycast(ray, out hit, float.PositiveInfinity, 1 << 8))
         {
             highlight.transform.position = hit.transform.position;
             // highlightRenderer.material.color = Color.red;

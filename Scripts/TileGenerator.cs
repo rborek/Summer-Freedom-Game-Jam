@@ -107,6 +107,7 @@ public class TileGenerator : MonoBehaviour
                     tiles[i,j] = (GameObject)Instantiate(tile, new Vector3(j, gridY, i), Quaternion.identity);
                     tiles[i, j].transform.localScale = new Vector3(1,1,1);
                     tiles[i, j].AddComponent<TileComponent>();
+                    tiles[i, j].layer = 8;
                 }
             }
 

@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SpeedBoostComponent : MonoBehaviour
+public class SpeedBoostTower : MonoBehaviour
 {
 
     // Use this for initialization
-    float boost = 10;
-    int timeLast = 10;
-    int radius = 100;
+    float boost = 3;
+    float timeLast = 0.5f;
+    int radius = 5;
     int level = 0;
     public int cost = 100;
     public Collider[] collisions;
@@ -15,6 +15,9 @@ public class SpeedBoostComponent : MonoBehaviour
     void Start()
     {
         gameObject.AddComponent<SphereCollider>().isTrigger = true;
+        gameObject.GetComponent<SphereCollider>().radius = radius;
+        gameObject.AddComponent<Rigidbody>().isKinematic = true;
+
     }
 
     // Update is called once per frame
@@ -22,16 +25,18 @@ public class SpeedBoostComponent : MonoBehaviour
     { }
     void OnTriggerEnter(Collider other)
     {
-        MovementComponent movement = gameObject.GetComponent<MovementComponent>();
+       
+        MovementComponent movement = other.gameObject.GetComponent<MovementComponent>();
         if(movement != null)
         {
+            Debug.Log("working");
             movement.SetTargetSpeed(boost, timeLast);
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        MovementComponent movement = gameObject.GetComponent<MovementComponent>();
+        MovementComponent movement = other.gameObject.GetComponent<MovementComponent>();
         if (movement != null)
         {
             movement.ResetSpeed();
