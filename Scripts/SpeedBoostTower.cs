@@ -14,45 +14,27 @@ public class SpeedBoostComponent : MonoBehaviour
     public ArrayList boosted = new ArrayList();
     void Start()
     {
-
+        gameObject.AddComponent<SphereCollider>().isTrigger = true;
     }
 
     // Update is called once per frame
     void Update()
+    { }
+    void OnTriggerEnter(Collider other)
     {
-        collisions = Physics.OverlapSphere(transform.position, radius);
-        for (int i = 0; i < collisions.Length; i++)
+        MovementComponent movement = gameObject.GetComponent<MovementComponent>();
+        if(movement != null)
         {
-            MovementComponent speed = collisions[i].gameObject.GetComponent<MovementComponent>();
-            if (speed != null)
-            {
-                if (!boosted.Contains(collisions[i]))
-                {
-                    speed.SetTargetSpeed(boost, timeLast);
-                    boosted.Add(collisions[i]);
-                }
-            } 
+            movement.SetTargetSpeed(boost, timeLast);
         }
-        for(int i = 0; i < boosted.Count; i++)
-        {
-            ArrayList escapedIndexes = new ArrayList();
-            for(int j = 0; j < boosted.Count; j++)
-            {
-                bool escaped = true;
-                for(int k = 0; k < collisions.Length; k++)
-                {
-                    if (boosted[j].Equals(collisions[k])) // if it escapsed
-                    {
-                        escaped = false;
-                        break;
-                    }
-                }
-                if (escaped)
-                {
-                    GameObject o = (GameObject)(boosted[j]).gameObject.GetComponent<MovementComponent>().ResetSpeed();
-                    boosted.Remove(boosted[j]);
-                }
-            }
+    }
 
+    void OnTriggerExit(Collider other)
+    {
+        MovementComponent movement = gameObject.GetComponent<MovementComponent>();
+        if (movement != null)
+        {
+            movement.ResetSpeed();
+        }
     }
 }
