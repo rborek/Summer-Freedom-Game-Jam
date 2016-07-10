@@ -49,8 +49,7 @@ public class SpeedBoostComponent : MonoBehaviour
                 }
                 if (escaped)
                 {
-                    GameObject o = (GameObject)(boosted[j])
-                        gameObject.GetComponent<MovementComponent>().ResetSpeed();
+                    GameObject o = (GameObject)(boosted[j]).gameObject.GetComponent<MovementComponent>().ResetSpeed();
                     boosted.Remove(boosted[j]);
                 }
             }
