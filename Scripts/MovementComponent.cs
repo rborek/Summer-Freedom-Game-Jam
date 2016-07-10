@@ -21,12 +21,14 @@ public class MovementComponent : MonoBehaviour
     }
 
     public void SetTargetSpeed(float val, float time ) {
+        timer = 0;
         start_speed = speed;
         target_speed = val;
         acceleration_time = time;
     }
 
     public void ResetSpeed() {
+        timer = 0;
         start_speed = speed;
         target_speed = 1;
         acceleration_time = 1;
