@@ -4,6 +4,7 @@ using System.Collections;
 public class PersonGenerator : MonoBehaviour {
     ArrayList people;
     GameObject tileGenerator;
+    public GameObject toSpawn;
     Vector3 spawnPos;
     float startSpeed = 2.5f;
     float timeToSpawnNext = 1;
@@ -21,11 +22,12 @@ public class PersonGenerator : MonoBehaviour {
             timeToSpawnNext -= Time.deltaTime;
             if (timeToSpawnNext <= 0)
             {
-                GameObject toSpawn = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                toSpawn.AddComponent<MovementComponent>();
-                toSpawn.AddComponent<HealthComponent>();
-                toSpawn.AddComponent<BoxCollider>();
-                toSpawn.transform.position = spawnPos;
+
+                //toSpawn.AddComponent<MovementComponent>();
+                // toSpawn.AddComponent<HealthComponent>();
+                //toSpawn.AddComponent<BoxCollider>();
+                //toSpawn.transform.position = spawnPos;
+                Instantiate(toSpawn, spawnPos, new Quaternion(0, 0, 0, 0));
                 people.Add(toSpawn);
                 timeToSpawnNext += Random.value * 2 + 10.5f;
             }
