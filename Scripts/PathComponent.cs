@@ -6,9 +6,9 @@ public class PathComponent : MonoBehaviour
 {
     ParticleSystem particles;
     ParticleSystem.EmitParams emitParams;
-    List<HealthComponent> damaging;
+    List<HealthComponent> damaging = new List<HealthComponent>();
     float timer;
-    float dps = 2;
+    public static float dps = 4;
     void Start()
     {
         particles = gameObject.AddComponent<ParticleSystem>();

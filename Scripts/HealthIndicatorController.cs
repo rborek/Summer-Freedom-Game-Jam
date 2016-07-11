@@ -12,7 +12,6 @@ public class HealthIndicatorController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-       
         transform.GetComponent<MeshRenderer>().material.color = Color.Lerp(Color.red, Color.blue, personHealth.Health()/100);
 	}
 }

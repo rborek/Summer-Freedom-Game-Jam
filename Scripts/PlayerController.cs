@@ -52,7 +52,8 @@ public class PlayerController : MonoBehaviour {
 
     void castRays()
     {
-        selectedTileTransform = hit.transform;
+       
+         selectedTileTransform = hit.transform;
         ray = Camera.main.ScreenPointToRay(Input.mousePosition);
         if (Physics.Raycast(ray, out hit, float.PositiveInfinity, 1 << 8))
         {

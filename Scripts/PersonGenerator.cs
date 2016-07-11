@@ -8,6 +8,7 @@ public class PersonGenerator : MonoBehaviour {
     Vector3 spawnPos;
     float startSpeed = 2.5f;
     float timeToSpawnNext = 1;
+    public float spawnFreq = 2;
     bool running = true;
 	void Start () {
         people = new ArrayList();
@@ -27,9 +28,10 @@ public class PersonGenerator : MonoBehaviour {
                 // toSpawn.AddComponent<HealthComponent>();
                 //toSpawn.AddComponent<BoxCollider>();
                 //toSpawn.transform.position = spawnPos;
+                spawnPos.y += .3f;
                 Instantiate(toSpawn, spawnPos, new Quaternion(0, 0, 0, 0));
                 people.Add(toSpawn);
-                timeToSpawnNext += Random.value * 2 + 10.5f;
+                timeToSpawnNext += spawnFreq;
             }
         }
 	}

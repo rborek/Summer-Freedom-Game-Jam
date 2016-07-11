@@ -14,6 +14,7 @@ public class MovementComponent : MonoBehaviour
     float lerpTime;
     Quaternion turnQuat;
     Quaternion startQuat;
+    Quaternion spawnQuat;
     int lastBoostingTower;
     bool turning;
     // Use this for initialization
@@ -21,6 +22,7 @@ public class MovementComponent : MonoBehaviour
     {
         turning = false;
         velocity = new Vector3(0, 0, 2.5f);
+        spawnQuat = transform.localRotation;
     }
 
     public void SetTargetSpeed(float val, float time, int towerID ) {
@@ -65,7 +67,9 @@ public class MovementComponent : MonoBehaviour
     {
         this.turnDir = turnDir.normalized * velocity.magnitude;
         startQuat = Quaternion.LookRotation(velocity.normalized);
+        startQuat.y += spawnQuat.y;
         turnQuat = Quaternion.LookRotation(turnDir);
+        turnQuat.y += spawnQuat.y;
         startDir = velocity;
         turning = true;
         lerpTime = 1;

@@ -44,15 +44,20 @@ public class GameManager : MonoBehaviour {
         {
             dayTime -= dayDuration;
             money -= upkeepCost + towerUpkeepCost * numTowers;
-            upkeepCost += 25; 
+            upkeepCost += 25;
             dayNum++;
+            PathComponent.dps *= 1.25f;
+            if (money < 0)
+            {
+                Application.Quit();
+            }
         }
 
     }
-	
-	// Update is called once per frame
-	void Update () {
-        PassTime();
+
+    // Update is called once per frame
+    void Update () {
+        
         if (Input.GetMouseButtonDown(0) && PC.selectedTileTransform.GetComponent<TileComponent>() != null) // right click
         {
             if (money >= towerCost)
@@ -67,18 +72,17 @@ public class GameManager : MonoBehaviour {
         else if (Input.GetMouseButtonDown(1)
                 && towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null)
         {
-            Debug.Log("ssf");
-            int x = (int)PC.selectedTileTransform.position.z;
-            int y = (int)PC.selectedTileTransform.position.x;
-            GameObject tower = towers[x, y];
             numTowers--;
-            Destroy(tower);
-            towers[x, y] = null;
-            addMoney(towerCost / 2);
-        }
+                int x = (int)PC.selectedTileTransform.position.z;
+                int y = (int)PC.selectedTileTransform.position.x;
+                GameObject tower = towers[x, y];
+                Destroy(tower);
+                towers[x, y] = null;
+                addMoney(towerCost / 2);
+       }
 
-        if (towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null
-            && Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && 
+            towers[(int)PC.selectedTileTransform.position.z, (int)PC.selectedTileTransform.position.x] != null )
         {
             
             int x = (int)PC.selectedTileTransform.position.z;
@@ -119,7 +123,7 @@ public class GameManager : MonoBehaviour {
             balance.text = "Balance: " + money;
             towers[z, x] = (GameObject)Instantiate(selectedTower,
             PC.selectedTileTransform.position + new Vector3(0, selectedTower.transform.localScale.y),
-            PC.selectedTileTransform.rotation);
+            new Quaternion(0,180,0,0));
         }
     }
 

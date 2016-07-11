@@ -29,18 +29,61 @@ public class TileGenerator : MonoBehaviour
         tiles[zPos, xPos] = GameObject.CreatePrimitive(PrimitiveType.Cube);
         GameObject tile = tiles[zPos, xPos];
         tile.transform.position = new Vector3(xPos, gridY, zPos);
-        tile.GetComponent<Renderer>().enabled = false;
+       tile.GetComponent<Renderer>().enabled = false;
         tile.AddComponent<PathComponent>();
     }
-
+    void createCorner(int z, int x, Vector3 turnDir)
+    {
+        GameObject corner = GameObject.CreatePrimitive(PrimitiveType.Cube);
+        corner.AddComponent<CornerPath>();
+        corner.GetComponent<CornerPath>().turnDir = turnDir;
+        corner.GetComponent<Renderer>().material.color = Color.blue;
+        corner.transform.position = new Vector3(x, gridY + 1, z);
+        corners.Add(corner);
+    }
     public void GenerateStaticMap()
     {
         // choose start pos
-        int xPos = 0;
+        int xPos = 46;
         int zPos = 0;
         startPos = new Vector3(xPos, gridY + 1, zPos);
 
         // create static path here using CreatePath
+        for (int i = 0; i < 8; ++i)
+        {
+            CreatePath(i, 46);
+        }
+        createCorner(9, 46, new Vector3(-1,0,0));
+        for (int i = 0; i < 19; i++)
+        {
+            CreatePath(8, 46 - i);
+        }
+        createCorner(9, 26, new Vector3(0, 0, 1));
+        for (int i = 0; i < 12; i++)
+        {
+            CreatePath(8 + i, 27);
+        }
+        createCorner(21, 26, new Vector3(1, 0, 0));
+        for (int i = 0; i < 12; i++)
+        {
+            CreatePath(20, 27 + i);
+        }
+        createCorner(21, 40, new Vector3(0, 0, 1));
+        for (int i = 0; i < 17; i++)
+        {
+            CreatePath(20 + i, 39);
+        }
+        createCorner(37, 40, new Vector3(-1, 0, 0));
+        for (int i = 0; i < 20; i++)
+        {
+            CreatePath(36, 39 - i);
+        }
+        createCorner(37, 19, new Vector3(0, 0, 1));
+        for (int i = 0; i < 5; i++)
+        {
+            CreatePath(36 + i, 20);
+        }
+
 
         for (int i = 0; i < gridHeight; ++i)
         {
